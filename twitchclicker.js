@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Interval Get Twitch Channel Points
 // @namespace    https://greasyfork.org/pl/users/416294-patrykcholewa
-// @version      1.0.0
+// @version      1.0.1
 // @description  If stream time, clicks premium currency button anytime it appears.
 // @author       PatrykCholewa
 // @include      https://www.twitch.tv/*
@@ -12,7 +12,7 @@
 (function() {
     'use strict';
 
-    var EVENING_STREAM_TIME_LIMIT = 18;
+    var EVENING_STREAM_TIME_LIMIT = 19;
     var MORNING_STREAM_TIME_LIMIT = 1;
 
     var counter = 0;
