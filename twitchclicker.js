@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Interval Get Twitch Channel Points
 // @namespace    https://greasyfork.org/pl/users/416294-patrykcholewa
-// @version      1.0.1
-// @description  If stream time, clicks premium currency button anytime it appears.
+// @version      1.1.0
+// @description  If stream time, clicks premium currency button anytime it appears. Is enabled between 19:00 and 1:00. Can be enabled manually.
 // @author       PatrykCholewa
 // @include      https://www.twitch.tv/*
 // @exclude      https://www.twitch.tv/*/videos*
@@ -12,17 +12,25 @@
 (function() {
     'use strict';
 
-    var EVENING_STREAM_TIME_LIMIT = 19;
-    var MORNING_STREAM_TIME_LIMIT = 1;
+    var __twitchIntervalGetChannelPoints_EVENING_STREAM_TIME_LIMIT = 19;
+    var __twitchIntervalGetChannelPoints_MORNING_STREAM_TIME_LIMIT = 1;
+
+
+    document.__twitchIntervalGetChannelPoints_checkIsEnabled = function() {
+        return new Date().getHours() >= __twitchIntervalGetChannelPoints_EVENING_STREAM_TIME_LIMIT
+             || new Date().getHours() <= __twitchIntervalGetChannelPoints_MORNING_STREAM_TIME_LIMIT;
+    }
+
+    document.__twitchIntervalGetChannelPoints_enable = function() {
+        document.__twitchIntervalGetChannelPoints_checkIsEnabled = function() {
+            return true;
+        }
+    }
 
     var counter = 0;
 
-    function isStreamTime() {
-        return new Date().getHours() >= EVENING_STREAM_TIME_LIMIT || new Date().getHours() <= MORNING_STREAM_TIME_LIMIT;
-    }
-
     setInterval(function() {
-        if (isStreamTime()) {
+        if (document.__twitchIntervalGetChannelPoints_checkIsEnabled()) {
             setTimeout(function() {
                 var button = document.querySelector('[data-test-selector=community-points-summary] button.tw-button--success');
 
