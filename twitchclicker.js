@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Interval Get Twitch Channel Points
 // @namespace    https://greasyfork.org/pl/users/416294-patrykcholewa
-// @version      1.1.0
+// @version      1.2.0
 // @description  If stream time, clicks premium currency button anytime it appears. Is enabled between 19:00 and 1:00. Can be enabled manually.
 // @author       PatrykCholewa
 // @include      https://www.twitch.tv/*
@@ -12,8 +12,8 @@
 (function() {
     'use strict';
 
-    var __twitchIntervalGetChannelPoints_EVENING_STREAM_TIME_LIMIT = 19;
-    var __twitchIntervalGetChannelPoints_MORNING_STREAM_TIME_LIMIT = 1;
+    var __twitchIntervalGetChannelPoints_EVENING_STREAM_TIME_LIMIT = 14;
+    var __twitchIntervalGetChannelPoints_MORNING_STREAM_TIME_LIMIT = 3;
 
 
     document.__twitchIntervalGetChannelPoints_checkIsEnabled = function() {
@@ -24,6 +24,12 @@
     document.__twitchIntervalGetChannelPoints_enable = function() {
         document.__twitchIntervalGetChannelPoints_checkIsEnabled = function() {
             return true;
+        }
+    }
+    
+    document.__twitchIntervalGetChannelPoints_disable = function() {
+        document.__twitchIntervalGetChannelPoints_checkIsEnabled = function() {
+            return false;
         }
     }
 
