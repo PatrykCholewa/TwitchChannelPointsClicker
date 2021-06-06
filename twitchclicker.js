@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Interval Get Twitch Channel Points
 // @namespace    https://greasyfork.org/pl/users/416294-patrykcholewa
-// @version      1.2.0
+// @version      1.2.1
 // @description  If stream time, clicks premium currency button anytime it appears. Is enabled between 19:00 and 1:00. Can be enabled manually.
 // @author       PatrykCholewa
 // @include      https://www.twitch.tv/*
@@ -12,8 +12,8 @@
 (function() {
     'use strict';
 
-    var __twitchIntervalGetChannelPoints_EVENING_STREAM_TIME_LIMIT = 14;
-    var __twitchIntervalGetChannelPoints_MORNING_STREAM_TIME_LIMIT = 3;
+    var __twitchIntervalGetChannelPoints_EVENING_STREAM_TIME_LIMIT = 8;
+    var __twitchIntervalGetChannelPoints_MORNING_STREAM_TIME_LIMIT = 4;
 
 
     document.__twitchIntervalGetChannelPoints_checkIsEnabled = function() {
@@ -26,7 +26,7 @@
             return true;
         }
     }
-    
+
     document.__twitchIntervalGetChannelPoints_disable = function() {
         document.__twitchIntervalGetChannelPoints_checkIsEnabled = function() {
             return false;
@@ -38,7 +38,14 @@
     setInterval(function() {
         if (document.__twitchIntervalGetChannelPoints_checkIsEnabled()) {
             setTimeout(function() {
-                var button = document.querySelector('[data-test-selector=community-points-summary] button.tw-button--success');
+                var buttons = Array.from(document.querySelectorAll('button') || [])
+                                   .filter(but => Array.from(but.classList.entries()).map(ar => ar[1]).some(cl => cl.includes('ScCoreButtonSuccess-')));
+                if (buttons.length > 1) {
+                    console.err('TOO MANY BUTTONS');
+                    return;
+                }
+
+                var button = buttons[0];
 
                 if (button) {
                     console.debug('TRY CLICK');
